@@ -1,16 +1,24 @@
 <!DOCTYPE html>
 <html lang="es">
-
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>CE VIBES</title>
-  <link rel="stylesheet" href="static/css/bootstrap.min.css">
-  <link rel="stylesheet" href="static/css/style.css">
+  <link rel="stylesheet" href="static/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="static/css/style.css" />
   <link rel="icon" type="image/svg+xml" href="static/img/cevibes-icon.png" />
 </head>
-
 <body class="bg-white text-dark">
+
+  <!-- Aviso de cookies -->
+  <div id="cookie-banner" class="alert alert-secondary text-center mb-0 rounded-0" style="display: none; position: fixed; bottom: 0; left: 0; right: 0; z-index: 1050;">
+    Esta web utiliza cookies para mejorar tu experiencia. Puedes aceptar todas o continuar con las esenciales.
+    <div class="mt-2">
+      <button id="accept-essential" class="btn btn-outline-dark btn-sm me-2">Solo esenciales</button>
+      <button id="accept-all" class="btn btn-dark btn-sm">Aceptar todas</button>
+      <a href="./pages/politica-cookies.html" class="btn btn-link btn-sm" target="_blank">Política de cookies</a>
+    </div>
+  </div>
 
   <!-- Navbar -->
   <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
@@ -37,7 +45,7 @@
   <!-- Header -->
   <header class="text-center py-5">
     <div class="container">
-      <img src="./static/img/cevibes_02.svg" alt="CE Vibes logo" class="img-fluid" role="img">
+      <img src="./static/img/cevibes_02.svg" alt="CE Vibes logo" class="img-fluid" role="img" />
     </div>
   </header>
 
@@ -46,11 +54,8 @@
     <div class="container">
       <h2 class="text-center mb-4"><b>Nosotros</b></h2>
       <p class="text-center">
-        En <b>CE VIBES</b> nos apasiona la música en directo. Somos una productora especializada en la organización de
-        conciertos, y espectáculos musicales de artistas y bandas. Nos encargamos de que cada detalle esté cuidado al
-        máximo: sonido, iluminación, promoción y experiencia del espectador.
-        Si tienes una sala, un teatro o un evento público y buscas música en directo con impacto, nosotros lo hacemos
-        posible.
+        En <b>CE VIBES</b> nos apasiona la música en directo. Somos una productora especializada en la organización de conciertos, y espectáculos musicales de artistas y bandas. Nos encargamos de que cada detalle esté cuidado al máximo: sonido, iluminación, promoción y experiencia del espectador.
+        Si tienes una sala, un teatro o un evento público y buscas música en directo con impacto, nosotros lo hacemos posible.
       </p>
       <p class="text-center">En <b>CE VIBES</b> no solo organizamos conciertos, creamos momentos inolvidables.</p>
     </div>
@@ -122,9 +127,9 @@
         e.preventDefault();
 
         emailjs.send("ce_vibes_service", "template_ce_vibes", {
-          nombre: $('#name').val(),    // corregido
+          nombre: $('#name').val(),
           email: $('#email').val(),
-          mensaje: $('#message').val() // corregido
+          mensaje: $('#message').val()
         }).then(function (response) {
           showAlert('success', 'Mensaje enviado correctamente');
           $('#form-contacto')[0].reset();
@@ -132,8 +137,22 @@
           showAlert('danger', 'Error al enviar el mensaje. Intenta nuevamente más tarde.');
         });
       });
+
+      // Banner de cookies
+      if (!localStorage.getItem('cookies-consent')) {
+        $('#cookie-banner').fadeIn();
+      }
+
+      $('#accept-essential').on('click', function () {
+        localStorage.setItem('cookies-consent', 'essential');
+        $('#cookie-banner').fadeOut();
+      });
+
+      $('#accept-all').on('click', function () {
+        localStorage.setItem('cookies-consent', 'all');
+        $('#cookie-banner').fadeOut();
+      });
     });
   </script>
 </body>
-
 </html>
