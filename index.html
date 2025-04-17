@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,6 +9,7 @@
   <link rel="stylesheet" href="static/css/style.css">
   <link rel="icon" type="image/svg+xml" href="static/img/cevibes-icon.png" />
 </head>
+
 <body class="bg-white text-dark">
 
   <!-- Navbar -->
@@ -44,8 +46,11 @@
     <div class="container">
       <h2 class="text-center mb-4"><b>Nosotros</b></h2>
       <p class="text-center">
-        En <b>CE VIBES</b> nos apasiona la música en directo. Somos una productora especializada en la organización de conciertos, y espectáculos musicales de artistas y bandas. Nos encargamos de que cada detalle esté cuidado al máximo: sonido, iluminación, promoción y experiencia del espectador.
-        Si tienes una sala, un teatro o un evento público y buscas música en directo con impacto, nosotros lo hacemos posible.
+        En <b>CE VIBES</b> nos apasiona la música en directo. Somos una productora especializada en la organización de
+        conciertos, y espectáculos musicales de artistas y bandas. Nos encargamos de que cada detalle esté cuidado al
+        máximo: sonido, iluminación, promoción y experiencia del espectador.
+        Si tienes una sala, un teatro o un evento público y buscas música en directo con impacto, nosotros lo hacemos
+        posible.
       </p>
       <p class="text-center">En <b>CE VIBES</b> no solo organizamos conciertos, creamos momentos inolvidables.</p>
     </div>
@@ -62,6 +67,7 @@
   <section id="contacto" class="py-5">
     <div class="container">
       <h2 class="text-center mb-4"><b>Contacto</b></h2>
+      <div id="alert-container"></div>
       <form id="form-contacto">
         <div class="mb-3">
           <label for="name" class="form-label">Nombre</label>
@@ -98,25 +104,36 @@
         $('html, body').animate({ scrollTop: $(seccion).offset().top }, 600);
       });
 
-      (function() {
-      emailjs.init("Jq_gsDWkc_nLt4und");
-    })();
+      function showAlert(type, message) {
+        const alertBox = `
+          <div class="alert alert-${type} alert-dismissible fade show mt-3" role="alert">
+            ${message}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Cerrar"></button>
+          </div>
+        `;
+        $('#alert-container').html(alertBox);
+      }
 
-    $('#form-contacto').on('submit', function (e) {
-      e.preventDefault();
+      (function () {
+        emailjs.init("Jq_gsDWkc_nLt4und");
+      })();
 
-      emailjs.send("ce_vibes_service", "template_ce_vibes", {
-        nombre: $('#name').val(),    // corregido
-        email: $('#email').val(),
-        mensaje: $('#message').val() // corregido
-      }).then(function (response) {
-        alert('Mensaje enviado correctamente');
-        $('#form-contacto')[0].reset();
-      }, function (error) {
-        alert('Error al enviar el mensaje: ' + JSON.stringify(error));
+      $('#form-contacto').on('submit', function (e) {
+        e.preventDefault();
+
+        emailjs.send("ce_vibes_service", "template_ce_vibes", {
+          nombre: $('#name').val(),    // corregido
+          email: $('#email').val(),
+          mensaje: $('#message').val() // corregido
+        }).then(function (response) {
+          showAlert('success', 'Mensaje enviado correctamente');
+          $('#form-contacto')[0].reset();
+        }, function (error) {
+          showAlert('danger', 'Error al enviar el mensaje. Intenta nuevamente más tarde.');
+        });
       });
     });
-  });
   </script>
 </body>
+
 </html>
